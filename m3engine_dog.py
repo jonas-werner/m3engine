@@ -25,7 +25,8 @@ def view():
     userid = data ['userid']
     regid = data ['sd_regid']
 
-    apiuri = "/dogs/api/v1/readdog"
+    # apiuri = "/dogs/api/v1/readdog"
+    apiuri = "/api/v1/readdog"
     parameters = {"sd_regid": regid}
 
     view_response = requests.get(dogapi_server + apiuri, params=parameters)
