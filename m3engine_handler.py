@@ -83,31 +83,31 @@ def add():
         
     return jsonify (response), code 
     
-##@app.route('/api/v1/handler/delete',methods=['DELETE'])
-##def delete():
-##    global userid
-##    global h_id
-##    
-##    data = request.form
-##    
-##    userid = data['userid']
-##    h_id = data['h_id']
-##    parameters = {'h_id':h_id}
-##
-##    apiuri = "/h_delete"
-##    
-##    # delete_response = requests.delete(handlerapi_server + apiuri, data=parameters)
+@app.route('/api/v1/handler/delete',methods=['DELETE'])
+def delete():
+    global userid
+    global h_id
+    
+    data = request.form
+    
+    userid = data['userid']
+    h_id = data['h_id']
+    parameters = {'h_id':h_id}
+
+    apiuri = "/api/v1/delete"
+    
+    delete_response = requests.delete(handlerapi_server + apiuri, params=parameters)
 ##    fake_delete_response_code = 200
-##
-##    #if delete_response.status_code == 200:
+
+    if delete_response:
 ##    if fake_delete_response_code == 200:
-##        response = {'Result': 'Handler Delete - SUCCESS'}
-##        code = 200
-##    else:
-##        response = {'Result': 'Handler Delete - FAIL'}
-##        code = 400
-##        
-##    return jsonify (response), code 
+        response = {'Result': 'Handler Delete - SUCCESS'}
+        code = 200
+    else:
+        response = {'Result': 'Handler Delete - FAIL'}
+        code = 400
+        
+    return jsonify (response), code 
 ##
 ## Call handler update API
 @app.route('/api/v1/handler/update',methods=['PUT'])
