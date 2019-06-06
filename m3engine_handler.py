@@ -62,6 +62,7 @@ def view():
     
     return jsonify(response), code
 
+## Call handler create API
 @app.route('/api/v1/handler/add',methods=['POST'])
 def add():
     apiuri = "/api/v1/create"
@@ -108,46 +109,48 @@ def add():
 ##        
 ##    return jsonify (response), code 
 ##
-##@app.route('/api/v1/handler/update',methods=['PUT'])
-##def update():
-##    global userid
-##    global h_id
-##
-##    data = request.form
-##
-##    userid = data['userid']
-##    regid = data['h_id']
-##
-##    parameters = {'h_id':h_id}
-##
-##    try:
-##        parameters['h_picture'] = data['h_picture']
-##    except:
-##        print "No change to Handler picture"
-##    try:
-##        parameters['h_servicedogid'] = data['h_servicedogid']
-##    except:
-##        print "No change to Handler service dog"
-##    try:
-##        parameters['h_trainerorg'] = data['h_trainerorg']
-##    except:
-##        print "No change to Handler organisation"
-##    #print parameters
-##    
-##    apiuri = "/h_update"
-##    
-##    # update_response = requests.put(handlerapi_server + apiuri, data=parameters)
+## Call handler update API
+@app.route('/api/v1/handler/update',methods=['PUT'])
+def update():
+    global userid
+    global h_id
+
+    data = request.form
+
+    userid = data['userid']
+    h_id = data['h_id']
+
+    parameters = {'h_id':h_id}
+
+    try:
+        parameters['h_picture'] = data['h_picture']
+    except:
+        print "No change to Handler picture"
+    try:
+        parameters['h_servicedogid'] = data['h_servicedogid']
+    except:
+        print "No change to Handler service dog"
+    try:
+        parameters['h_trainerorg'] = data['h_trainerorg']
+    except:
+        print "No change to Handler organisation"
+    print parameters
+    
+    apiuri = "/api/v1/update"
+    
+    update_response = requests.put(handlerapi_server + apiuri, json=parameters)
 ##    fake_update_response_code = 200
-##    
-##    #if update_response.status_code == 200:
+    
+    if update_response.status_code:
 ##    if fake_update_response_code == 200:
-##        response = {'Result': 'Handler Update - SUCCESS'}
-##        code = 200
-##    else:
-##        response = {'Result': 'Handler Update - FAIL'}
-##        code = 400
-##        
-##    return jsonify (response), code 
+        response = {'Result': 'Handler Update - SUCCESS'}
+        code = 200
+    else:
+        response = {'Result': 'Handler Update - FAIL'}
+        code = 400
+        
+    return jsonify (response), code 
+
 ##
 ##@app.route('/api/v1/handler/searchhandlerid',methods=['GET'])
 ##def searchhandlerid():
