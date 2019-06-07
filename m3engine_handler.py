@@ -17,6 +17,7 @@ if 'VCAP_SERVICES' in os.environ:
     handlerapi_server = "http://handlers.cfapps.io"
 else: 
     handlerapi_server = "http://127.0.0.1:5000"
+
 print("handlerapi_server: %s" % handlerapi_server)
 
 ## Test self
@@ -66,9 +67,10 @@ def view():
 ## Call handler create API
 @app.route('/api/v1/handler/add',methods=['POST'])
 def add():
-    parameters = request.form
-
     apiuri = "/api/v1/create"
+
+    parameters = request.form
+##    parameters.to_dict()
 
     add_response = requests.post(handlerapi_server + apiuri, json=parameters)
     
@@ -79,9 +81,8 @@ def add():
         response = {'Result': 'Handler Add - FAIL'}
         code = 400
         
-    return jsonify (response), code 
+    return jsonify (response), code
 
-## Call handler delete API    
 @app.route('/api/v1/handler/delete',methods=['DELETE'])
 def delete():
     global userid
@@ -96,15 +97,17 @@ def delete():
     apiuri = "/api/v1/delete"
     
     delete_response = requests.delete(handlerapi_server + apiuri, params=parameters)
+##    fake_delete_response_code = 200
 
     if delete_response:
+##    if fake_delete_response_code == 200:
         response = {'Result': 'Handler Delete - SUCCESS'}
         code = 200
     else:
         response = {'Result': 'Handler Delete - FAIL'}
         code = 400
         
-    return jsonify (response), code 
+    return jsonify (response), code
 
 ## Call handler update API
 @app.route('/api/v1/handler/update',methods=['PUT'])
@@ -136,10 +139,8 @@ def update():
     apiuri = "/api/v1/update"
     
     update_response = requests.put(handlerapi_server + apiuri, json=parameters)
-##    fake_update_response_code = 200
     
     if update_response.status_code:
-##    if fake_update_response_code == 200:
         response = {'Result': 'Handler Update - SUCCESS'}
         code = 200
     else:
@@ -169,4 +170,4 @@ def update():
 
 #Ucomment for unit testing
 if __name__ == "__main__":
-    app.run(debug=False,host='0.0.0.0', port=int(os.getenv('PORT', '5020')))
+    app.run(debug=False, host='0.0.0.0', port=int(os.getenv('PORT', '5020')), threaded=True)
