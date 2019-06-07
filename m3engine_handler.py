@@ -20,25 +20,26 @@ else:
 print("handlerapi_server: %s" % handlerapi_server)
 
 ## Test self
-@app.route('/',methods=["GET"])
-def root():
-    print("JW m3engine up and running")
-    response = "JW m3engine is up and running"
-    return jsonify(response),200
+@app.route('/api/v1/handler/m3estatus', methods=["GET"])
+def m3estatus():
+    print("I'm up and running")
+    response = {'status': "m3engine API up and running"}
+    statuscode = 200
+    return jsonify(response),statuscode
 
 ## Test handlers microservices status
-@app.route('/api/v1/handler/status',methods=["GET"])
+@app.route('/api/v1/handler/hstatus',methods=["GET"])
 def status():
-    apiuri = "/api/v1/status"
+    apiuri = "/api/v1/mystatus"
 
-    handler_status = requests.get(hapi_base+apiuri)
+    handler_status = requests.get(handlerapi_server+apiuri)
     if handler_status:
         response = {'status': "Handlers API returns my ping"}
         code = 200
     else:
         response = {'statuscode': 400}
         code = 400
-    return jsonify(response),code
+    return jsonify(response), code
 
 ## Call handler read API
 @app.route('/api/v1/handler/view',methods=["GET"])
