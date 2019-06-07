@@ -20,18 +20,13 @@ else:
 
 print("handlerapi_server: %s" % handlerapi_server)
 
-## Test self
-@app.route('/api/v1/handler/m3estatus', methods=["GET"])
-def m3estatus():
-    print("I'm up and running")
-    response = {'status': "m3engine API up and running"}
-    statuscode = 200
-    return jsonify(response),statuscode
-
-## Test handlers microservices status
+##
+## Status APIs to check on all microservice dependencies
+##
+## Test Handlers status
 @app.route('/api/v1/handler/hstatus',methods=["GET"])
-def status():
-    apiuri = "/api/v1/mystatus"
+def hstatus():
+    apiuri = "/api/v1/handler/hstatus"
 
     handler_status = requests.get(handlerapi_server+apiuri)
     if handler_status:
@@ -41,6 +36,13 @@ def status():
         response = {'statuscode': 400}
         code = 400
     return jsonify(response), code
+
+## Test self
+@app.route('/api/v1/handler/m3estatus', methods=["GET"])
+def m3estatus():
+    response = {'status': "m3engine API up and running"}
+    statuscode = 200
+    return jsonify(response),statuscode
 
 ## Call handler read API
 @app.route('/api/v1/handler/view',methods=["GET"])
