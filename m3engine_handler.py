@@ -65,16 +65,13 @@ def view():
 ## Call handler create API
 @app.route('/api/v1/handler/add',methods=['POST'])
 def add():
+    parameters = request.form
+
     apiuri = "/api/v1/create"
 
-    parameters = request.form
-    #print parameters
-    
     add_response = requests.post(handlerapi_server + apiuri, json=parameters)
-##    fake_add_response_code = 200
     
     if add_response:
-##    if fake_add_response_code == 200:
         response = {'Result': 'Handler Add - SUCCESS'}
         code = 200
     else:
@@ -82,7 +79,8 @@ def add():
         code = 400
         
     return jsonify (response), code 
-    
+
+## Call handler delete API    
 @app.route('/api/v1/handler/delete',methods=['DELETE'])
 def delete():
     global userid
@@ -97,10 +95,8 @@ def delete():
     apiuri = "/api/v1/delete"
     
     delete_response = requests.delete(handlerapi_server + apiuri, params=parameters)
-##    fake_delete_response_code = 200
 
     if delete_response:
-##    if fake_delete_response_code == 200:
         response = {'Result': 'Handler Delete - SUCCESS'}
         code = 200
     else:
@@ -108,7 +104,7 @@ def delete():
         code = 400
         
     return jsonify (response), code 
-##
+
 ## Call handler update API
 @app.route('/api/v1/handler/update',methods=['PUT'])
 def update():
